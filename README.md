@@ -1,6 +1,6 @@
 # Discord CryptoBot
 
-A discord bot originally made for BCARD, and reworked to work with RESQ, it can be easily adapted for any other currency.
+A discord bot originally made for ZEON, it can be easily adapted for any other currency.
 
 # Index
 
@@ -34,9 +34,12 @@ Finally, run the bot with:
 ```
 node bot.js
 ```
-Optionally you can run the bot on background with:
+Optionally you can run the bot on a screen with:
 ```
-node bot.js background
+screen -S  mybot
+node bot.js 
+CRTL AD (to quit the screen )
+
 ```
 
 # <a name = "bot-commands"></a> Bot commands
