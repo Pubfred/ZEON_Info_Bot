@@ -195,8 +195,11 @@ NOTE 2: Feel free to ask for adding support to a concrete exchange.
 
 # <a name = "image-examples"></a> Image examples
 
-![Screenshot](/img/Mining20.png	) 
+![Screenshot](/img/Mining20.png) 
 
+![Screenshot](/img/Priceticker.png) 
+
+![Screenshot](/img/Statslevel.png) 
 
 
 # <a name = "additional"></a> Additional
