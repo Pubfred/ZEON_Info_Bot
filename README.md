@@ -195,10 +195,9 @@ NOTE 2: Feel free to ask for adding support to a concrete exchange.
 
 # <a name = "image-examples"></a> Image examples
 
-<img src="https://i.imgur.com/rIm9HV0.png" /> 
-<img src="https://i.imgur.com/6O4lR9g.png" /> 
-<img src="https://i.imgur.com/rERmTJT.png" /> 
-<img src="https://i.imgur.com/JQjhFCs.png" />
+![Screenshot](/img/Mining20.png	) 
+
+
 
 # <a name = "additional"></a> Additional
 
