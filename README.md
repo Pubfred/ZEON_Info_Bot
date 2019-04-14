@@ -1,4 +1,4 @@
-# Discord CryptoBot
+# ZEON Discord Info Bot
 
 A discord bot originally made for ZEON, it can be easily adapted for any other currency.
 
