@@ -1641,20 +1641,31 @@ class BotCommand {
                             " - **" + conf.prefix + "price" + "** : get the current price of " + conf.coin + " on every listed exchange"
                     },
                     {
-                        name: "Coin Info:",
+                        name: "Stats:",
                         value:
                             " - **" + conf.prefix + "stats1** : get the current level1 stats of the " + conf.coin + " blockchain\n" +
                             " - **" + conf.prefix + "stats2** : get the current level2 stats of the " + conf.coin + " blockchain\n" +
-                            " - **" + conf.prefix + "stats3** : get the current level3 stats of the " + conf.coin + " blockchain\n" +
-                            " - **" + conf.prefix + "stages** : get the info of the upcoming reward structures\n" +
-                            " - **" + conf.prefix + "earnings [amount of MNs]** : get the expected earnings per masternode, aditionally you can put the amount of MNs\n" +
+                            " - **" + conf.prefix + "stats3** : get the current level3 stats of the " + conf.coin + " blockchain\n"                          
+                    },
+                    {
+                        name: "Stages:",
+                        value:
+                            " - **" + conf.prefix + "stages** : get the info of the upcoming reward structures\n" 
+                    },
+                    {
+                        name: "Earnings:",
+                        value:
+                        //  " - **" + conf.prefix + "earnings [amount of MNs]** : get the expected earnings per masternode, aditionally you can put the amount of MNs\n" +
                             " - **" + conf.prefix + "earnings1 [amount of MNs]** : get the expected earnings per masternode Level 1\n" +
                             " - **" + conf.prefix + "earnings2 [amount of MNs]** : get the expected earnings per masternode Level2\n" +
-                            " - **" + conf.prefix + "earnings3 [amount of MNs]** : get the expected earnings per masternode Level3\n" +
-		    
-			    
-			    " - **" + conf.prefix + "mining <hashrate> [K/M/G/T]** : get the expected earnings with the given hashrate, aditionally you can put the hashrate multiplier (K = KHash/s, M = MHash/s, ...)"
+                            " - **" + conf.prefix + "earnings3 [amount of MNs]** : get the expected earnings per masternode Level3\n" 
                     },
+                    {
+                        name: "Mining:",
+                        value:
+                            " - **" + conf.prefix + "mining <hashrate> [K/M/G/T]** : get the expected earnings with the given hashrate, aditionally you can put the hashrate multiplier (K = KHash/s, M = MHash/s, ...)"
+                    },
+		
                     {
                         name: "Explorer",
                         value:
