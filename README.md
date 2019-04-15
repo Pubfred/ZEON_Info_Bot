@@ -1,6 +1,6 @@
-# Discord CryptoBot
+# ZEON Discord Info Bot
 
-A discord bot originally made for BCARD, and reworked to work with RESQ, it can be easily adapted for any other currency.
+A discord bot originally made for ZEON, it can be easily adapted for any other currency.
 
 # Index
 
@@ -34,9 +34,12 @@ Finally, run the bot with:
 ```
 node bot.js
 ```
-Optionally you can run the bot on background with:
+Optionally you can run the bot on a screen with:
 ```
-node bot.js background
+screen -S  mybot
+node bot.js 
+CRTL AD (to quit the screen )
+
 ```
 
 # <a name = "bot-commands"></a> Bot commands
@@ -192,21 +195,23 @@ NOTE 2: Feel free to ask for adding support to a concrete exchange.
 
 # <a name = "image-examples"></a> Image examples
 
-<img src="https://i.imgur.com/rIm9HV0.png" /> 
-<img src="https://i.imgur.com/6O4lR9g.png" /> 
-<img src="https://i.imgur.com/rERmTJT.png" /> 
-<img src="https://i.imgur.com/JQjhFCs.png" />
+![Screenshot](/img/Mining20.png) 
+
+![Screenshot](/img/Priceticker.png) 
+
+![Screenshot](/img/Statslevel.png) 
+
 
 # <a name = "additional"></a> Additional
 
 If you're too lazy or just not sure how to make a profile, I can make one for your cryptocurrency for a very tiny fee.
 
 ```
-BTC Donations:   3F6J19DmD5jowwwQbE9zxXoguGPVR716a7
-BCARD Donations: BQmTwK685ajop8CFY6bWVeM59rXgqZCTJb
-RESQ Donations:  QhsqRbQVNHCAe93puAnHUX96jsmMxtpBNh
-CFL Donations:   c4fuTdr7Z7wZy8WQULmuAdfPDReWfDcoE5
-MCPC Donations:  MCwe8WxWNmcZL1CpdpG3yuudGYVphmTSLE
+BTC Donations:   16wfHjVqr2z4x4o7S21tpZSZJuLRNy9RFt
+ETH Donations:   0x88c55724ce65a0d502ae38af17fe776585d5f2b1
+LTC Donations:   LRyK1Z4gxVAF3ZpimQHVNat9678J8TZ4xA
+BOO Donations:   BBC6H7UKy8TyKo2JZS2aRtoSaUs18rs8AW
+ZEON Donations:  ZJzz4YmRjBhpYizhKphY9Z1DtCn7ZcwdUH
 ```
 
 A big thanks to https://github.com/discordjs/discord.js for this amazing library for interfacing with the discord API.
