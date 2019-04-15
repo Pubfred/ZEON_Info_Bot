@@ -6,7 +6,7 @@
 
 #Auth files 
 auth.json
-
+node_modules/*
 
 
 #Visual Studio files
