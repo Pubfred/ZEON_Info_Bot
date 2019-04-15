@@ -586,7 +586,7 @@ class BotCommand {
 
             let embed = new Discord.RichEmbed();
             embed.title = conf.coin + " Stats Level 1";
-            embed.color = conf.color.coininfo;
+            embed.color = conf.color.coininfo1;
             embed.timestamp = new Date();
 
             for (let stat of conf.statorder) {
@@ -685,7 +685,7 @@ class BotCommand {
 
             let embed = new Discord.RichEmbed();
             embed.title = conf.coin + " Stats Level 2";
-            embed.color = conf.color.coininfo;
+            embed.color = conf.color.coininfo2;
             embed.timestamp = new Date();
 
             for (let stat of conf.statorder) {
@@ -784,7 +784,7 @@ class BotCommand {
 
             let embed = new Discord.RichEmbed();
             embed.title = conf.coin + " Stats Level 3"
-            embed.color = conf.color.coininfo;
+            embed.color = conf.color.coininfo3;
             embed.timestamp = new Date();
 
             for (let stat of conf.statorder) {
@@ -1069,6 +1069,190 @@ class BotCommand {
             }
         });
     }
+
+
+    earnings1(mns) {
+        return Promise.all([
+            new Promise((resolve, reject) => resolve(bash_cmd(conf.requests.blockcount))),
+            new Promise((resolve, reject) => resolve(request_mncount1())),
+            new Promise((resolve, reject) => resolve(price_avg())),
+            new Promise((resolve, reject) => resolve(price_btc_usd()))
+        ]).then(([blockcount, mncount1, avgbtc, priceusd]) => {
+
+            let valid = {
+                blockcount: !isNaN(blockcount) && blockcount.trim() !== "",
+                mncount1: !isNaN(mncount1) && mncount1.trim() !== ""
+            };
+
+            if (valid.blockcount && valid.mncount1) {
+                mns = mns !== undefined && mns > 0 ? mns : 1;
+                let stage = get_stage1(blockcount);
+                let coinday = 86400 / conf.blocktime / mncount1 * stage.mn;
+                this.fn_send({
+                    embed: {
+			  
+                        title: conf.coin + " Earnings Level 1" + (mns !== 1 ? " (" + mns + " MNs)" : ""),
+                        color: conf.color.coininfo1,
+                        fields: [
+                            {
+                                name: "ROI",
+                                value: (36500 / (stage.coll / coinday)).toFixed(2) + "%\n" + (stage.coll / coinday).toFixed(2) + " days",
+                                inline: true
+                            },
+                            {
+                                name: "MN Price",
+                                value: (stage.coll * avgbtc).toFixed(8) + " BTC\n" + (stage.coll * avgbtc * priceusd).toFixed(2) + " USD",
+                                inline: true
+                            }
+                        ].concat(mns === 1 ? [{ name: "\u200b", value: "\u200b", inline: true }] : [
+                            {
+                                name: "Time to get 1 MN",
+                                value: (stage.coll / (coinday * mns)).toFixed(2) + " days",
+                                inline: true
+                            }
+                        ]).concat(earn_fields(coinday * mns, avgbtc, priceusd)),
+                        timestamp: new Date()
+                    }
+                });
+            }
+            else {
+                this.fn_send({
+                    embed: {
+			    
+                        title: conf.coin + " Earnings Level 1",
+                        color: conf.color.coininfo1,
+                        description: (valid.blockcount ? "" : "There seems to be a problem with the `blockcount` request\n") + (valid.mncount1 ? "" : "There seems to be a problem with the `mncount` request"),
+                        timestamp: new Date()
+                    }
+                });
+            }
+        });
+    }
+
+
+    earnings2(mns) {
+        return Promise.all([
+            new Promise((resolve, reject) => resolve(bash_cmd(conf.requests.blockcount))),
+            new Promise((resolve, reject) => resolve(request_mncount2())),
+            new Promise((resolve, reject) => resolve(price_avg())),
+            new Promise((resolve, reject) => resolve(price_btc_usd()))
+        ]).then(([blockcount, mncount2, avgbtc, priceusd]) => {
+
+            let valid = {
+                blockcount: !isNaN(blockcount) && blockcount.trim() !== "",
+                mncount2: !isNaN(mncount2) && mncount2.trim() !== ""
+            };
+
+            if (valid.blockcount && valid.mncount2) {
+                mns = mns !== undefined && mns > 0 ? mns : 1;
+                let stage = get_stage2(blockcount);
+                let coinday = 86400 / conf.blocktime / mncount2 * stage.mn;
+                this.fn_send({
+                    embed: {
+                        title: conf.coin + " Earnings Level 2" + (mns !== 1 ? " (" + mns + " MNs)" : ""),
+                        color: conf.color.coininfo2,
+                        fields: [
+                            {
+                                name: "ROI",
+                                value: (36500 / (stage.coll / coinday)).toFixed(2) + "%\n" + (stage.coll / coinday).toFixed(2) + " days",
+                                inline: true
+                            },
+                            {
+                                name: "MN Price",
+                                value: (stage.coll * avgbtc).toFixed(8) + " BTC\n" + (stage.coll * avgbtc * priceusd).toFixed(2) + " USD",
+                                inline: true
+                            }
+                        ].concat(mns === 1 ? [{ name: "\u200b", value: "\u200b", inline: true }] : [
+                            {
+                                name: "Time to get 1 MN",
+                                value: (stage.coll / (coinday * mns)).toFixed(2) + " days",
+                                inline: true
+                            }
+                        ]).concat(earn_fields(coinday * mns, avgbtc, priceusd)),
+                        timestamp: new Date()
+                    }
+                });
+            }
+            else {
+                this.fn_send({
+                    embed: {
+                        title: conf.coin + " Earnings Level 2",
+                        color: conf.color.coininfo2,
+                        description: (valid.blockcount ? "" : "There seems to be a problem with the `blockcount` request\n") + (valid.mncount2 ? "" : "There seems to be a problem with the `mncount` request"),
+                        timestamp: new Date()
+                    }
+                });
+            }
+        });
+    }
+
+
+    earnings3(mns) {
+        return Promise.all([
+            new Promise((resolve, reject) => resolve(bash_cmd(conf.requests.blockcount))),
+            new Promise((resolve, reject) => resolve(request_mncount3())),
+            new Promise((resolve, reject) => resolve(price_avg())),
+            new Promise((resolve, reject) => resolve(price_btc_usd()))
+        ]).then(([blockcount, mncount3, avgbtc, priceusd]) => {
+
+            let valid = {
+                blockcount: !isNaN(blockcount) && blockcount.trim() !== "",
+                mncount3: !isNaN(mncount3) && mncount3.trim() !== ""
+            };
+
+            if (valid.blockcount && valid.mncount3) {
+                mns = mns !== undefined && mns > 0 ? mns : 1;
+                let stage = get_stage3(blockcount);
+                let coinday = 86400 / conf.blocktime / mncount3 * stage.mn;
+                this.fn_send({
+                    embed: {
+                        title: conf.coin + " Earnings Level 3" + (mns !== 1 ? " (" + mns + " MNs)" : ""),
+                        color: conf.color.coininfo3,
+                        fields: [
+                            {
+                                name: "ROI",
+                                value: (36500 / (stage.coll / coinday)).toFixed(2) + "%\n" + (stage.coll / coinday).toFixed(2) + " days",
+                                inline: true
+                            },
+                            {
+                                name: "MN Price",
+                                value: (stage.coll * avgbtc).toFixed(8) + " BTC\n" + (stage.coll * avgbtc * priceusd).toFixed(2) + " USD",
+                                inline: true
+                            }
+                        ].concat(mns === 1 ? [{ name: "\u200b", value: "\u200b", inline: true }] : [
+                            {
+                                name: "Time to get 1 MN",
+                                value: (stage.coll / (coinday * mns)).toFixed(2) + " days",
+                                inline: true
+                            }
+                        ]).concat(earn_fields(coinday * mns, avgbtc, priceusd)),
+                        timestamp: new Date()
+                    }
+                });
+            }
+            else {
+                this.fn_send({
+                    embed: {
+                        title: conf.coin + " Earnings Level 3",
+                        color: conf.color.coininfo3,
+                        description: (valid.blockcount ? "" : "There seems to be a problem with the `blockcount` request\n") + (valid.mncount3 ? "" : "There seems to be a problem with the `mncount` request"),
+                        timestamp: new Date()
+                    }
+                });
+            }
+        });
+    }	
+
+
+	
+
+
+
+
+
+
+
+
     mining(hr, mult) {
         let letter = "";
 
@@ -1464,7 +1648,12 @@ class BotCommand {
                             " - **" + conf.prefix + "stats3** : get the current level3 stats of the " + conf.coin + " blockchain\n" +
                             " - **" + conf.prefix + "stages** : get the info of the upcoming reward structures\n" +
                             " - **" + conf.prefix + "earnings [amount of MNs]** : get the expected earnings per masternode, aditionally you can put the amount of MNs\n" +
-                            " - **" + conf.prefix + "mining <hashrate> [K/M/G/T]** : get the expected earnings with the given hashrate, aditionally you can put the hashrate multiplier (K = KHash/s, M = MHash/s, ...)"
+                            " - **" + conf.prefix + "earnings1 [amount of MNs]** : get the expected earnings per masternode Level 1\n" +
+                            " - **" + conf.prefix + "earnings2 [amount of MNs]** : get the expected earnings per masternode Level2\n" +
+                            " - **" + conf.prefix + "earnings3 [amount of MNs]** : get the expected earnings per masternode Level3\n" +
+		    
+			    
+			    " - **" + conf.prefix + "mining <hashrate> [K/M/G/T]** : get the expected earnings with the given hashrate, aditionally you can put the hashrate multiplier (K = KHash/s, M = MHash/s, ...)"
                     },
                     {
                         name: "Explorer",
@@ -1507,22 +1696,19 @@ class BotCommand {
     }
     about() {
         const donate = { // don't be evil with this, please
-            "BTC": "3F6J19DmD5jowwwQbE9zxXoguGPVR716a7",
-            "BCARD": "BQmTwK685ajop8CFY6bWVeM59rXgqZCTJb",
-            "SNO": "SZ4pQpuqq11EG7dw6qjgqSs5tGq3iTw2uZ",
-            "RESQ": "QXFszBEsRXWy2D2YFD39DUqpnBeMg64jqX",
-            "CFL": "c4fuTdr7Z7wZy8WQULmuAdfPDReWfDcoE5",
-            "KYD": "YczLtMSvv1jhAPzuZ9xyDKZr24nTkuACLZ",
-            "C4L": "CLVaYLHDHuxcpybt1pModcYV4DZMudGWnc",
-            "REVU": "R9jUZVXhhnNf9dRmCSvhosEmASnmSWmJy6",
-            "MCPC": "MCwe8WxWNmcZL1CpdpG3yuudGYVphmTSLE"
+            "BTC": "16wfHjVqr2z4x4o7S21tpZSZJuLRNy9RFt",
+            "ZEON": "ZJzz4YmRjBhpYizhKphY9Z1DtCn7ZcwdUH",
+            "BOO": "BBC6H7UKy8TyKo2JZS2aRtoSaUs18rs8AW",
+            "ETH": "0x88c55724ce65a0d502ae38af17fe776585d5f2b1",
+            "LTC": "LRyK1Z4gxVAF3ZpimQHVNat9678J8TZ4xA"
+          
         };
         this.fn_send({
             embed: {
                 title: "About",
                 color: conf.color.other,
-                description: "**Author:** <@464599914962485260>\n" +
-                    "**Source Code:** [Link](https://github.com/neo3587/discord_cryptobot)\n" +
+                description: "**Author:**  <@Pubfred> \n" +
+                    "**Source Code:** [Link](https://github.com/Pubfred/ZEON_Info_Bot)\n" +
                     "**Description:** A simple bot for " + conf.coin + " to check the current status of the currency in many ways, use **!help** to see these ways\n" +
                     (conf.coin in donate ? "**" + conf.coin + " Donations (to author):** `" + donate[conf.coin] + "`\n" : "") +
                     "**BTC Donations (to author):** `" + donate["BTC"] + "`"
@@ -1684,6 +1870,22 @@ client.on("message", msg => {
                 cmd.earnings(args[1]);
             break;
         }
+	case "earnings1": {
+            if (enabled_cmd("earnings1", valid_request("blockcount") && valid_request("mncount1")))
+                cmd.earnings1(args[1]);
+            break;
+        }
+        case "earnings2": {
+            if (enabled_cmd("earnings2", valid_request("blockcount") && valid_request("mncount2")))
+                cmd.earnings2(args[1]);
+            break;
+        }
+        case "earnings3": {
+            if (enabled_cmd("earnings3", valid_request("blockcount") && valid_request("mncount3")))
+                cmd.earnings3(args[1]);
+            break;
+        }
+	    
         case "mining": {
             if (enabled_cmd("mining", valid_request("blockcount") && valid_request("hashrate")) && !error_noparam(1, "You need to provide amount of hashrate"))
                 cmd.mining(args[1], args[2]);

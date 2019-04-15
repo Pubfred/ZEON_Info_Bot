@@ -8,6 +8,9 @@
   "color": {
     "prices": 3447003,
     "coininfo": 888688,
+    "coininfo1": 10938342,
+    "coininfo2": 5282249,
+    "coininfo3": 739956,
     "explorer": 888688,
     "other": 15662976,
     "error": 9375030
@@ -69,7 +72,7 @@
     "mncount1": "zeon-cli masternode count | jq  .total | jq .[0] | jq .count",
     "mncount2": "zeon-cli masternode count | jq  .total | jq .[1] | jq .count",
     "mncount3": "zeon-cli masternode count | jq  .total | jq .[2] | jq .count",
-    "supply": "curl -k https://explorer.zeonhexalgo.fun/ext/getmoneysupplyround",
+    "supply": "curl -s https://masternode2.zeonhexalgo.fun/ext/getmoneysupply",
     "balance": "curl -k https://explorer.zeonhexalgo.fun/ext/getaddress/",
     "blockindex": "zeon-cli getblockhash ",
     "blockhash": "zeon-cli getblock ",
