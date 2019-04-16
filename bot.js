@@ -446,6 +446,23 @@ function earn_fields(coinday, avgbtc, priceusd) {
 }
 
 
+function earn_fields_M(coinday, avgbtc, priceusd) {
+    const earn_value = (mult) => {
+        return (coinday * mult).toFixed(4) + " " + conf.coin + "\n" +
+            (coinday * mult * avgbtc).toFixed(8) + " BTC\n" +
+            (coinday * mult * avgbtc * priceusd).toFixed(2) + " USD";
+    };
+    return [
+        {
+            name: "Monthly",
+            value: earn_value(30),
+            inline: true
+        },
+        
+    ];
+}
+
+
 function get_stage(blk) {
     for (let stage of conf.stages)
         if (blk <= stage.block)
@@ -1014,45 +1031,110 @@ class BotCommand {
 
         });
     }
-    earnings(mns) {
+    earnings(mns1 , mns2, mns3 ) {
         return Promise.all([
             new Promise((resolve, reject) => resolve(bash_cmd(conf.requests.blockcount))),
-            new Promise((resolve, reject) => resolve(request_mncount())),
-            new Promise((resolve, reject) => resolve(price_avg())),
+            new Promise((resolve, reject) => resolve(request_mncount1())),
+            new Promise((resolve, reject) => resolve(request_mncount2())),
+            new Promise((resolve, reject) => resolve(request_mncount3())),
+	    new Promise((resolve, reject) => resolve(price_avg())),
             new Promise((resolve, reject) => resolve(price_btc_usd()))
-        ]).then(([blockcount, mncount, avgbtc, priceusd]) => {
+        ]).then(([blockcount, mncount1, mncount2, mncount3, avgbtc, priceusd]) => {
 
             let valid = {
                 blockcount: !isNaN(blockcount) && blockcount.trim() !== "",
-                mncount: !isNaN(mncount) && mncount.trim() !== ""
+                mncount1: !isNaN(mncount1) && mncount1.trim() !== "",
+                mncount2: !isNaN(mncount2) && mncount2.trim() !== "",
+                mncount3: !isNaN(mncount3) && mncount3.trim() !== ""
             };
 
-            if (valid.blockcount && valid.mncount) {
-                mns = mns !== undefined && mns > 0 ? mns : 1;
-                let stage = get_stage(blockcount);
-                let coinday = 86400 / conf.blocktime / mncount * stage.mn;
+            if (valid.blockcount && valid.mncount1  && valid.mncount2 && valid.mncount3 ) {
+                mns1 = mns1 !== undefined && mns1 > 0 ? mns1 : 0;
+		mns2 = mns2 !== undefined && mns2 > 0 ? mns2 : 0;
+                mns3 = mns3 !== undefined && mns3 > 0 ? mns3 : 0;
+    
+                let stage1 = get_stage1(blockcount);
+		let stage2 = get_stage2(blockcount);
+                let stage3 = get_stage3(blockcount);
+    
+                let coinday1 = 86400 / conf.blocktime / mncount1 * stage1.mn;
+                let coinday2 = 86400 / conf.blocktime / mncount2 * stage2.mn;
+		let coinday3 = 86400 / conf.blocktime / mncount3 * stage3.mn;    
+
                 this.fn_send({
                     embed: {
-                        title: conf.coin + " Earnings" + (mns !== 1 ? " (" + mns + " MNs)" : ""),
+                        title: conf.coin + " Earnings " ,
                         color: conf.color.coininfo,
                         fields: [
+            
                             {
-                                name: "ROI",
-                                value: (36500 / (stage.coll / coinday)).toFixed(2) + "%\n" + (stage.coll / coinday).toFixed(2) + " days",
+                                name: "Level 1",
+                                value:  mns1 + " Mn(s)" ,
                                 inline: true
                             },
                             {
-                                name: "MN Price",
-                                value: (stage.coll * avgbtc).toFixed(8) + " BTC\n" + (stage.coll * avgbtc * priceusd).toFixed(2) + " USD",
+                                name: "Level 2",
+                                value:  mns2 + " Mn(s)"   ,
                                 inline: true
-                            }
-                        ].concat(mns === 1 ? [{ name: "\u200b", value: "\u200b", inline: true }] : [
+                            },
                             {
-                                name: "Time to get 1 MN",
-                                value: (stage.coll / (coinday * mns)).toFixed(2) + " days",
+                                name: "Level 3",
+                                value: mns3 + " Mn(s)" ,
+                                inline: true
+                            },
+
+
+
+
+		            {
+                                name: "ROI Level 1",
+                                value: (36500 / (stage1.coll / coinday1)).toFixed(2) + "%\n" + (stage1.coll / coinday1).toFixed(2) + " days",
+                                inline: true
+                            },
+		            {
+                                name: "ROI Level 2",
+                                value: (36500 / (stage2.coll / coinday2)).toFixed(2) + "%\n" + (stage2.coll / coinday2).toFixed(2) + " days",
+                                inline: true
+                            },
+		            {
+                                name: "ROI Level 3",
+                                value: (36500 / (stage3.coll / coinday3)).toFixed(2) + "%\n" + (stage3.coll / coinday3).toFixed(2) + " days",
+                                inline: true
+                            },
+				
+                            {
+                                name: "MN Price Level 1",
+                                value: (stage1.coll * avgbtc).toFixed(8) + " BTC\n" + (stage1.coll * avgbtc * priceusd).toFixed(2) + " USD",
+                                inline: true
+                            },
+			    {
+                                name: "MN Price Level 2",
+                                value: (stage2.coll * avgbtc).toFixed(8) + " BTC\n" + (stage2.coll * avgbtc * priceusd).toFixed(2) + " USD",
+                                inline: true
+                            },
+	                    {
+                                name: "MN Price Level 3",
+                                value: (stage3.coll * avgbtc).toFixed(8) + " BTC\n" + (stage3.coll * avgbtc * priceusd).toFixed(2) + " USD",
+                                inline: true
+                            },
+                            {
+                                name: "Time to get 1 MN Level 1",
+                                value:  mns1 > 0 ? ((stage1.coll / (coinday1 * mns1)).toFixed(2) + " days") :  "----" ,
+                                inline: true
+                            },
+                            {
+                                name: "Time to get 1 MN Level 2",
+                                value:  mns2 > 0 ? ((stage2.coll / (coinday2 * mns2)).toFixed(2) + " days" ) : "----",
+                                inline: true
+                            },
+                            {
+                                name: "Time to get 1 MN Level 3",
+                                value:  mns3 > 0 ? ((stage3.coll / (coinday3 * mns3)).toFixed(2) + " days" ) : "----",
                                 inline: true
                             }
-                        ]).concat(earn_fields(coinday * mns, avgbtc, priceusd)),
+		
+           		
+                        ].concat(earn_fields_M(coinday1 * mns1, avgbtc, priceusd)).concat(earn_fields_M(coinday2 * mns2, avgbtc, priceusd)).concat(earn_fields_M(coinday3 * mns3, avgbtc, priceusd)) ,
                         timestamp: new Date()
                     }
                 });
@@ -1062,7 +1144,7 @@ class BotCommand {
                     embed: {
                         title: conf.coin + " Earnings",
                         color: conf.color.coininfo,
-                        description: (valid.blockcount ? "" : "There seems to be a problem with the `blockcount` request\n") + (valid.mncount ? "" : "There seems to be a problem with the `mncount` request"),
+                        description: (valid.blockcount ? "" : "There seems to be a problem with the `blockcount` request\n") + (valid.mncount1 ? "" : "There seems to be a problem with the `mncount` request"),
                         timestamp: new Date()
                     }
                 });
@@ -1655,10 +1737,12 @@ class BotCommand {
                     {
                         name: "Earnings:",
                         value:
-                        //  " - **" + conf.prefix + "earnings [amount of MNs]** : get the expected earnings per masternode, aditionally you can put the amount of MNs\n" +
+			    			    
+                            " - **" + conf.prefix + "earnings [Mn1  Mn2  Mn3 ]** : get the expected earnings per masternode, \n" + 
+			    "                       aditionally you can put the amount of MNs at each level \n" +
                             " - **" + conf.prefix + "earnings1 [amount of MNs]** : get the expected earnings per masternode Level 1\n" +
-                            " - **" + conf.prefix + "earnings2 [amount of MNs]** : get the expected earnings per masternode Level2\n" +
-                            " - **" + conf.prefix + "earnings3 [amount of MNs]** : get the expected earnings per masternode Level3\n" 
+                            " - **" + conf.prefix + "earnings2 [amount of MNs]** : get the expected earnings per masternode Level 2\n" +
+                            " - **" + conf.prefix + "earnings3 [amount of MNs]** : get the expected earnings per masternode Level 3\n" 
                     },
                     {
                         name: "Mining:",
@@ -1877,8 +1961,8 @@ client.on("message", msg => {
             break;
         }
         case "earnings": {
-            if (enabled_cmd("earnings", valid_request("blockcount") && valid_request("mncount")))
-                cmd.earnings(args[1]);
+            if (enabled_cmd("earnings", valid_request("blockcount") && valid_request("mncount1")&& valid_request("mncount2") && valid_request("mncount3")))
+                cmd.earnings(args[1] ,args[2] , args[3] );
             break;
         }
 	case "earnings1": {
