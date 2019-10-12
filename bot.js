@@ -195,7 +195,7 @@ function get_ticker(ticker) {
             }
             case "zeonexchange": {
                 exdata.link = `https://exchange.zeonhexalgo.fun/market/53`;
-                js_request(`https://exchange.zeonhexalgo.fun/page/api?method=singlemarket&marketid=53` , res => exdata.fillj(res["return"][0], "lasttradeprice", "", "", "", ""));
+                js_request(`https://exchange.zeonhexalgo.fun/page/api?method=singlemarket&marketid=53` , res => exdata.fillj(res["return"][0], "lasttradeprice", "", "sell", "buy", ""));
                 break;
             }
 
