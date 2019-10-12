@@ -193,6 +193,11 @@ function get_ticker(ticker) {
                 js_request(`https://xapi.finexbox.com/v1/ticker?market=${coin_up[0]}_${coin_up[1]}`, res => exdata.fillj(res["result"], "price", "volume", "high", "low", "percent"));
                 break;
             }
+            case "zeonexchange": {
+                exdata.link = `https://exchange.zeonhexalgo.fun/market/53`;
+                js_request(`https://exchange.zeonhexalgo.fun/page/api?method=singlemarket&marketid=53` , res => exdata.fillj(res["return"][0], "lasttradeprice", "", "", "", ""));
+                break;
+            }
 
             case "graviex": {
                 exdata.link = `https://graviex.net/markets/${coin_lw[0]}${coin_lw[1]}`;
