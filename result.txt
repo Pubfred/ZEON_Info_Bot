@@ -1,0 +1,18 @@
+Bot ready!
+url___1 https://exchange.zeonhexalgo.fun/page/api?method=singlemarket&marketid=53
+url___1 https://xapi.finexbox.com/v1/ticker?market=ZEON_BTC
+url___1 https://cratex.io/api/v1/get_markets.php?market=ZEON/BTC
+url___1 https://dex.moondex.org/api/v1/public/getmarketsummary?market=BTC-ZEON
+url___1 https://tradebtc.zeonhexalgo.fun/api/v1/public/getmarketsummary?market=BTC-ZEON
+url___1 https://cratex.io/api/v1/get_markets.php?market=ZEON/LTC
+url___1 https://cratex.io/api/v1/get_markets.php?market=ZEON/BTCZ
+url___1 https://graviex.net/api/v2/tickers/monbtc
+url https://cratex.io/api/v1/get_markets.php?market=ZEON/BTC
+x 
+{"market":"ZEON\/BTC","buy_price":"0.0000000100","sell_price":"0.0000000400","volume24h":0,"price24hago":"0.0000002800","latest_price":"0.0000002800"}
+url https://cratex.io/api/v1/get_markets.php?market=ZEON/LTC
+x 
+{"market":"ZEON\/LTC","buy_price":"0.0000000100","sell_price":"0.0000500000","volume24h":0,"price24hago":null,"latest_price":null}
+url https://cratex.io/api/v1/get_markets.php?market=ZEON/BTCZ
+x 
+{"market":"ZEON\/BTCZ","buy_price":"0.3500000000","sell_price":"33.0000000000","volume24h":0,"price24hago":"15.0000000000","latest_price":"15.0000000000"}

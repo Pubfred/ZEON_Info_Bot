@@ -135,11 +135,33 @@ function get_ticker(ticker) {
     return new Promise((resolve, reject) => {
 
         const js_request = (url, fn) => {
+
+	  console.log( "url___1 " + url );
+
             async_request(url).then(x => {
+
+		console.log( "url " + url );
+    
                 try {
+          
+	            var firstChar = x.substring(0, 1);
+                    var firstCharCode = x.charCodeAt(0);
+                    if (firstCharCode == 65279) {
+                      //  console.log('First character "' + firstChar + '" (character code: ' + firstCharCode + ') is invalid so removing it.');
+                        x = x.substring(1);
+                    }		
+			
+		 /*   x=x.replace(/\n/g,'');
+		    x=x.replace(/[\/]/g,'');	            
+		    x=x.replace('sell_price','sell');
+	            x=x.replace('buy_price','buy');
+		    x=x.replace('latest_price','latest');
+                    x=x.replace('5.80419995','"5.80419995"');
+	            x=x.replace('ZEON\BTC','"5.80419995"');
+		  */  console.log( "x " + x ); 	
                     fn(JSON.parse(x));
                 }
-                catch (e) { /**/ }
+                catch (e) { console.log( "e " + e ); /**/ }
                 resolve(exdata);
             }).catch(() => resolve(exdata));
         };
@@ -183,12 +205,97 @@ function get_ticker(ticker) {
                 js_request(`https://www.coinexchange.io/api/v1/getmarketsummary?market_id=` + conf.special_ticker.CoinExchange, res => exdata.fillj(res["result"], "LastPrice", "BTCVolume", "BidPrice", "AskPrice", "Change"));
                 break;
             }
-	    case "cratex": {
-                exdata.link = `https://cratex.io/index.php?pair=${coin_up[0]}/${coin_up[1]}`;
-                js_request(`https://cratex.io/api/v1/get_markets.php?market=BTCZ/${coin_up[1]}`, res => exdata.fillj(res,"latest_price" ,"", "buy_price" , "sell_price" , "" )); 
+
+           case "swiftex_btc": {
+                exdata.link = `https://www.swiftex.co/trading/zeonbtc`;
+                js_request(`https://www.swiftex.co/api/v2/peatio/public/markets/zeonbtc/tickers`, res => exdata.fillj(res["ticker"],"last" ,"volume", "sell" , "buy" , "price_change_percent" ));
                 break;
             }
-            case "finexbox": {
+
+
+           case "swiftex_ltc": {
+                exdata.link = `https://www.swiftex.co/trading/zeonbtc`;
+                js_request(`https://www.swiftex.co/api/v2/peatio/public/markets/zeonltc/tickers`, res => exdata.fillj(res["ticker"],"last" ,"volume", "sell" , "buy" , "price_change_percent" ));
+                break;
+            }
+
+           case "swiftex_doge": {
+                exdata.link = `https://www.swiftex.co/trading/zeonbtc`;
+                js_request(`https://www.swiftex.co/api/v2/peatio/public/markets/zeondoge/tickers`, res => exdata.fillj(res["ticker"],"last" ,"volume", "sell" , "buy" , "price_change_percent" ));
+                break;
+            }
+
+
+           case "swiftex_mynt": {
+                exdata.link = `https://www.swiftex.co/trading/zeonbtc`;
+                js_request(`https://www.swiftex.co/api/v2/peatio/public/markets/zeonmynt/tickers`, res => exdata.fillj(res["ticker"],"last" ,"volume", "sell" , "buy" , "price_change_percent" ));
+                break;
+            }
+
+
+
+	    case "cratex_btc": {
+                exdata.link = `https://cratex.io/index.php?pair=${coin_up[0]}/${coin_up[1]}`;
+                js_request(`https://cratex.io/api/v1/get_markets.php?market=${coin_up[0]}/${coin_up[1]}`, res => exdata.fillj(res,"latest_price" ,"volume24h", "sell_price" , "buy_price" , "price24hago" ));
+                
+		
+                break;
+            }
+	    case "cratex_ltc": {
+                exdata.link = `https://cratex.io/index.php?pair=${coin_up[0]}/LTC`;
+                js_request(`https://cratex.io/api/v1/get_markets.php?market=${coin_up[0]}/LTC`, res => exdata.fillj(res,"latest_price" ,"volume24h", "sell_price" , "buy_price" , "price24hago" ));
+
+                
+
+                break;
+            }
+             case "cratex_btcz": {
+                exdata.link = `https://cratex.io/index.php?pair=${coin_up[0]}/BTCZ`;
+                js_request(`https://cratex.io/api/v1/get_markets.php?market=${coin_up[0]}/BTCZ`, res => exdata.fillj(res,"latest_price" ,"volume24h", "sell_price" , "buy_price" , "price24hago" ));
+
+                
+
+                break;
+            }
+
+             case "cratex_doge": {
+                exdata.link = `https://cratex.io/index.php?pair=${coin_up[0]}/DOGE`;
+                js_request(`https://cratex.io/api/v1/get_markets.php?market=${coin_up[0]}/DOGE`, res => exdata.fillj(res,"latest_price" ,"volume24h", "sell_price" , "buy_price" , "price24hago" ));
+
+                break;
+            }
+
+
+
+	     case "altmarkets_btc": {
+                exdata.link = `https://altmarkets.io/trading/${coin_lw[0]}${coin_lw[1]}`;
+                js_request(`https://altmarkets.io/api/v2/tickers/${coin_lw[0]}${coin_lw[1]}`, res => exdata.fillj(res["ticker"],"last" ,"vol", "high" , "low" , "" ));
+                break;
+            }
+
+              case "moondex": {
+                exdata.link = `https://dex.moondex.org/market/${coin_up[1]}-${coin_up[0]}`;
+                js_request(`https://dex.moondex.org/api/v1/public/getmarketsummary?market=${coin_up[1]}-${coin_up[0]}`, res => exdata.fillj(res["result"], "Last", "Volume","Ask", "Bid", ""));
+                break;
+            }
+
+              case "tradebtc": {
+                exdata.link = `https://tradebtc.zeonhexalgo.fun/market/${coin_up[1]}-${coin_up[0]}`;
+                js_request(`https://tradebtc.zeonhexalgo.fun/api/v1/public/getmarketsummary?market=${coin_up[1]}-${coin_up[0]}`, res => exdata.fillj(res["result"], "Last", "Volume","Ask", "Bid", ""));
+                break;
+            }
+
+
+	    case "zeonexchange": {
+                exdata.link = `https://exchange.zeonhexalgo.fun/market/53`;
+                js_request(`https://exchange.zeonhexalgo.fun/page/api?method=singlemarket&marketid=53` , res => exdata.fillj(res["return"][0], "lasttradeprice", "volume24h", "sell", "buy", "0"));
+                break;
+          
+            } 		
+
+
+
+            case "finexbox_btc": {
                 exdata.link = `https://www.finexbox.com/market/pair/${coin_up[0]}-${coin_up[1]}.html`;
                 js_request(`https://xapi.finexbox.com/v1/ticker?market=${coin_up[0]}_${coin_up[1]}`, res => exdata.fillj(res["result"], "price", "volume", "high", "low", "percent"));
                 break;
@@ -198,7 +305,20 @@ function get_ticker(ticker) {
                 exdata.link = `https://graviex.net/markets/${coin_lw[0]}${coin_lw[1]}`;
                 js_request(`https://graviex.net:443/api/v2/tickers/${coin_lw[0]}${coin_lw[1]}.json`, res => exdata.fillj(res["ticker"], "last", "volbtc", "buy", "sell", "change"));
                 break;
+			
             }
+
+
+          case "graviex2": {
+                
+                 js_request(`https://graviex.net/api/v2/tickers/monbtc`, res => {
+                    res = res.ticker;
+                    exdata.fill(res.last, res.volbtc, res.buy, res.sell, res.change * 100);
+                });
+                break;
+            }
+
+
             case "escodex": {
                 exdata.link = `https://wallet.escodex.com/market/ESCODEX.${coin_up[0]}_ESCODEX.${coin_up[1]}`;
                 js_request(`http://labs.escodex.com/api/ticker`, res => exdata.fillj(res.find(x => x.base === coin_up[1] && x.quote === coin_up[0]), "latest", "base_volume", "highest_bid", "lowest_ask", "percent_change"));
@@ -572,7 +692,7 @@ class BotCommand {
                     hide_undef("**| Vol**   :  ", data.volume + " ZEON") +
                     hide_undef("**| High**  :  ", data.buy) +
                     hide_undef("**| Low**   :  ", data.sell) +
-                    hide_undef("**| Chg**   :  ", data.change) +
+                    //hide_undef("**| Chg**   :  ", data.change) +
                     "[Link](" + data.link + ")",
                     true
                 );

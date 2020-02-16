@@ -3,7 +3,19 @@
 
   },
   "ticker": [
-    "Finexbox"
+    "ZeonExchange", 
+    "Finexbox_BTC",
+    "Cratex_BTC",
+    "Moondex",
+    "Tradebtc",
+    "Cratex_LTC",
+    "Cratex_BTCZ",
+    "Cratex_DOGE",
+    "Swiftex_BTC", 
+    "Swiftex_LTC",
+    "Swiftex_DOGE",
+    "Swiftex_MYNT"
+
   ],
   "color": {
     "prices": 3447003,
