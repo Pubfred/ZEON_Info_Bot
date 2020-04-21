@@ -232,6 +232,17 @@ function get_ticker(ticker) {
                 break;
             }
 
+            case "mercatox": {
+                console.log("mercatox : " );
+                exdata.link = `https://mercatox.com/exchange/${coin_up[0]}/${coin_up[1]}`;
+                js_request('https://mercatox.com/api/public/v1/ticker', res =>  {
+                console.log("tmp1 : " , res.KLKS_BTC);
+                exdata.fillj(res.KLKS_BTC, "last_price", "quote_volume", "highestBid", "lowestAsk", "percentChange"
+                )}
+                 );
+
+                break;
+            }
 
 
 	    case "cratex_btc": {
